@@ -1,0 +1,205 @@
+Minimal dreamy website with slow-moving cloud background
+Save this as index.html and open it in your browser. It’s a single file with a soft gradient sky and gentle, drifting clouds behind your aesthetic text.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elli — dreamy bio</title>
+  <style>
+    :root{
+      --sky-top:#cfe9ff;
+      --sky-mid:#e9f5ff;
+      --sky-bottom:#f9f7ff;
+      --text:#2f2a3b;
+      --accent:#8aa8ff;
+      --card-bg:rgba(255,255,255,0.55);
+      --blur:14px;
+    }
+
+    /* Reset & base */
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+      color:var(--text);
+      background: linear-gradient(180deg,var(--sky-top),var(--sky-mid) 50%,var(--sky-bottom));
+      overflow:hidden; /* keep clouds neat */
+    }
+
+    /* Subtle star/sparkle layer */
+    .sparkles::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.6) 0 1px, transparent 2px),
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,0.5) 0 1px, transparent 2px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.5) 0 1px, transparent 2px),
+        radial-gradient(circle at 85% 60%, rgba(255,255,255,0.5) 0 1px, transparent 2px);
+      background-repeat: no-repeat;
+      filter: blur(0.2px);
+      pointer-events:none;
+    }
+
+    /* Cloud styling using layered circles */
+    .cloud{
+      position:fixed;
+      top:0;
+      left:-30vw;
+      width:30vw;
+      height:18vw;
+      opacity:0.35;
+      filter: blur(var(--blur));
+    }
+
+    .blob{
+      position:absolute;
+      background: white;
+      border-radius: 50%;
+      box-shadow:
+        0 8px 30px rgba(255,255,255,0.6),
+        0 2px 10px rgba(180,190,210,0.35);
+    }
+
+    /* Shape the cloud with overlapping blobs */
+    .cloud .b1{ width:12vw; height:12vw; left:4vw;  top:4vw; }
+    .cloud .b2{ width:14vw; height:14vw; left:12vw; top:2vw; }
+    .cloud .b3{ width:10vw; height:10vw; left:0vw;  top:7vw; }
+    .cloud .b4{ width:16vw; height:12vw; left:18vw; top:6vw; }
+    .cloud .b5{ width:8vw;  height:8vw;  left:24vw; top:9vw; }
+
+    /* Drift animation */
+    @keyframes drift {
+      0%   { transform: translateX(0) translateY(0); }
+      50%  { transform: translateX(55vw) translateY(1vw); }
+      100% { transform: translateX(110vw) translateY(0); }
+    }
+
+    /* Multiple cloud lanes with varying speeds */
+    .cloud.c1{ top:12vh; animation: drift 110s linear infinite; }
+    .cloud.c2{ top:28vh; animation: drift 140s linear infinite; opacity:0.30; }
+    .cloud.c3{ top:46vh; animation: drift 170s linear infinite; opacity:0.28; }
+    .cloud.c4{ top:63vh; animation: drift 200s linear infinite; opacity:0.26; }
+
+    /* Gentle vertical bobbing for depth */
+    @keyframes bob {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-0.8vh); }
+      100% { transform: translateY(0); }
+    }
+    .cloud .blob{ animation: bob 12s ease-in-out infinite; }
+
+    /* Content card */
+    .wrap{
+      position:relative;
+      z-index:10;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:5vmin;
+    }
+
+    .card{
+      max-width:820px;
+      width:min(90vw,820px);
+      backdrop-filter: saturate(1.2) blur(16px);
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 22px;
+      padding: 28px 30px;
+      box-shadow:
+        0 20px 60px rgba(138,168,255,0.20),
+        inset 0 0 40px rgba(255,255,255,0.25);
+    }
+
+    .header{
+      text-align:center;
+      font-weight:600;
+      letter-spacing:0.3px;
+      color:#4a4a5a;
+      margin-bottom:14px;
+    }
+
+    .body{
+      font-size: clamp(18px, 2.1vmin, 24px);
+      line-height: 1.6;
+      color:#2f2a3b;
+      white-space: pre-line; /* keep line breaks */
+      text-align: center;
+    }
+
+    /* Accent separators */
+    .divider{
+      margin:14px auto 18px;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(138,168,255,0.35), transparent);
+    }
+
+    /* Decorative footer line */
+    .footer{
+      margin-top:16px;
+      text-align:center;
+      font-size: clamp(16px, 1.8vmin, 22px);
+      color:#4a4a5a;
+    }
+
+    /* Small screens tweak */
+    @media (max-width:520px){
+      .card{ padding:22px }
+      .body{ font-size: clamp(16px, 2.6vmin, 22px); }
+    }
+  </style>
+</head>
+<body class="sparkles">
+  <!-- Clouds -->
+  <div class="cloud c1">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="blob b4"></div><div class="blob b5"></div>
+  </div>
+  <div class="cloud c2">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="blob b4"></div><div class="blob b5"></div>
+  </div>
+  <div class="cloud c3">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="blob b4"></div><div class="blob b5"></div>
+  </div>
+  <div class="cloud c4">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="blob b4"></div><div class="blob b5"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="wrap">
+    <div class="card" role="main" aria-label="Elli dreamy bio">
+      <div class="header">✦⋆｡°✩彡☆彡✩°｡⋆</div>
+      <div class="divider"></div>
+      <div class="body">
+𝒩𝒶𝓂𝑒 : 𝓔𝓵𝓵𝓲
+𝒜𝑔𝑒 : 𝟣𝟦
+𝒫𝓇𝑜𝓃𝑜𝓊𝓃𝓈 : 𝒽𝑒/𝒽𝒾𝓂
+𝒮𝑒𝓍𝓊𝒶𝓁𝒾𝓉𝓎 : 𝒸𝒾𝓈-𝓂𝒶𝓁𝑒, 𝒷𝑜𝓎𝓀𝒾𝓈𝓈𝑒𝓇 ˣˣ
+𝐻𝑒𝒾𝑔𝒽𝓉 : 𝟧'𝟨"
+𝐵𝑜𝒹𝓎 𝓉𝓎𝓅𝑒 : 𝟣𝟢𝟧 𝓁𝒷.
+𝐿𝑜𝑜𝓀𝒾𝓃𝑔 𝒻𝑜𝓇 : 𝒻𝓇𝒾𝑒𝓃𝒹𝓈 (𝟣𝟦–𝟣𝟨)
+𝐻𝑜𝒷𝒷𝒾𝑒𝓈 : 𝓇𝑜𝒷𝓁𝑜𝓍, 𝒸𝒽𝒶𝓉𝓉𝒾𝓃𝑔, 𝓈𝒽𝑜𝓌𝓈, 𝓂𝓊𝓈𝒾𝒸 ♡
+𝐸𝓍𝓉𝓇𝒶 : 𝒜𝓇𝒾𝒶𝓃𝒶 𝒢𝓇𝒶𝓃𝒹𝑒 ✧ 𝑅𝓃𝐵 ✧ 𝓂𝓊𝓈𝒾𝒸𝒶𝓁𝓈
+𝒟𝑀’𝓈 𝑜𝓅𝑒𝓃 : 𝓁𝑒𝓉’𝓈 𝓅𝓁𝒶𝓎 𝓉𝑜𝑔𝑒𝓉𝒽𝑒𝓇!
+
+✦⋆｡°✩☽˚｡⋆｡°✦
+(˶ᵔ ᵕ ᵔ˶)  ૮₍ ˶• ˕ •˶ ₎ა
+⋆｡°✩彡☆           彡
+      </div>
+      <div class="divider"></div>
+      <div class="footer">soft clouds. slow drift. cozy vibes.</div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+If you want it even softer or slower, I can tweak the cloud speed, blur, or opacity. Want a pastel pink sunset version too?
